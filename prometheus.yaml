@@ -36,3 +36,15 @@ scrape_configs:
         labels:
           app: "node-1-name"
           name: "catalogue"
+  - job_name: "node-1"
+    ec2_sd_config:
+      - region: us-east-1
+        port: 9100
+        filters:
+        - name: "tag: MonitoringThroughScraping"
+          values: ["true"]
+    relabel_configs:
+      - source_labels: [__meta_ec2_instance_id]
+        target_label: instance_id
+      - source_labels: [__meta_ec2_tag_Name]
+        target_label: name
